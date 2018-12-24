@@ -1,0 +1,70 @@
+public class Solution{
+    public boolean hotel(ArrayList<Integer> arrive, ArrayList<Integer> depart, int K) {
+        int n=arrive.size();
+        int[] arrival=new int[n];
+        int[] departure=new int[n];
+        int i=0;
+        for(Integer a :arrive){
+            arrival[i]=a;
+            i++;
+        }
+        i=0;
+        for(Integer d :depart){
+            departure[i]=d;
+            i++;
+        }
+        ArrayList<Point> ans= new ArrayList<Point>(); 
+  
+    for (i = 0; i < n; i++) { 
+        ans.add(new Point(arrival[i], 1)); 
+        ans.add(new Point(departure[i], 0)); 
+    } 
+  
+    Collections.sort(ans, new SortbyFirst());
+    /*for(Point p: ans){
+        System.out.println(p.toString());
+    }*/
+    int curr_active = 0, max_active = 0; 
+  
+    for (Point p:ans) { 
+  
+        if (p.second == 1) { 
+            curr_active++; 
+            max_active = Math.max(max_active,  
+                            curr_active); 
+        } 
+  
+       
+        else
+            curr_active--; 
+    } 
+  
+   
+    return (K >= max_active);
+    }
+}
+class Point{
+    int first;
+    int second;
+    Point(int first, int second){
+        this.first=first;
+        this.second=second;
+    }
+    @Override
+    public String toString() { 
+        return first + " " + second; 
+    }
+}
+class SortbyFirst implements Comparator<Point> 
+{ 
+    
+    public int compare(Point a, Point b) 
+    { 
+        
+            if ((a.first - b.first)==0) { 
+                return ((a.second == 1) ? 1 : -1); 
+            } else { 
+                return  a.first - b.first; 
+            } 
+    } 
+} 
